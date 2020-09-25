@@ -13,6 +13,8 @@ import './utils/element-ui'
 import './styles/iconfont.css'
 // 引入axios请求
 import './utils/request'
+// 引入动画库
+import 'animate.css'
 
 Vue.config.productionTip = false
 
