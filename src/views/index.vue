@@ -13,7 +13,7 @@ export default {
 <style lang="less" scoped>
 .menu {
   width: 260px;
-  height: calc(100vh - 50px);
+  height: 100%;
   background-color: #eee;
 }
 </style>

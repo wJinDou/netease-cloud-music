@@ -15,6 +15,8 @@ import './styles/iconfont.css'
 import './utils/request'
 // 引入动画库
 import 'animate.css'
+// 引入改变颜色
+import './utils/changeColor'
 
 Vue.config.productionTip = false
 

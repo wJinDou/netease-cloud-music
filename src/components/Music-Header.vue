@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="header" style="background-color: var(--bgColor)" >
       <!-- 顶部菜单 -->
       <div class="menu">
           <el-button type="success" icon="el-icon-s-home" circle></el-button>
@@ -8,28 +8,28 @@
       </div>
       <!-- 历史记录 -->
       <div class="history">
-        <i class="el-icon-arrow-left"></i>
-        <i class="el-icon-arrow-right"></i>
+        <i class="el-icon-arrow-left" style="color: var(--fontColor)"></i>
+        <i class="el-icon-arrow-right" style="color: var(--fontColor)"></i>
       </div>
       <!-- 搜索功能 -->
       <div class="search">
-        <i class="el-icon-search"></i>
-        <el-input v-model="keywords" @keyup.enter.native="goSearch" placeholder="搜索"></el-input>
+        <i class="el-icon-search" :class="{isblack:isBlack}" ></i>
+        <el-input :class="{isblack:isBlack}" v-model="keywords" @keyup.enter.native="goSearch" placeholder="搜索"></el-input>
       </div>
       <!-- 换肤功能 -->
-      <div class="change" @click="isShow = !isShow" >
-        <i class="iconfont icon-huanfu"></i>
+      <div class="change"  @click="isShow = !isShow"  >
+        <i class="iconfont icon-huanfu" style="color: var(--fontColor)" ></i>
         <transition enter-active-class="animate__animated animate__fadeIn" leave-active-class="animate__animated animate__fadeOut" >
           <div v-show="isShow" class="anima">
-            <div class="item">
+            <div class="item" @click="changeBlack" >
               <i></i>
               <span>深色</span>
             </div>
-            <div class="item">
+            <div class="item" @click="changeLight" >
               <i></i>
               <span>浅色</span>
             </div>
-            <div class="item">
+            <div class="item" @click="changeRed" >
               <i></i>
               <span>红色</span>
             </div>
@@ -40,7 +40,11 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
+  computed: {
+    ...mapState(['isBlack'])
+  },
   data () {
     return {
       keywords: '',
@@ -56,6 +60,39 @@ export default {
         }
       })
       console.log(res)
+    },
+    changeBlack () {
+      console.log('改变成黑色')
+      // this.isBlack = true
+      console.log()
+      this.$store.commit('changeBlack', true)
+      this.$changeColor({
+        bgColor: '#333',
+        bgColor2: '#222',
+        bgColor3: '#111',
+        fontColor: '#fefefe',
+        fontColor2: 'rgba(255,255,255,.5)'
+      })
+    },
+    changeLight () {
+      console.log('改变浅色')
+      this.$store.commit('changeBlack', false)
+      this.$changeColor({
+        bgColor: '#f9f9f9',
+        bgColor2: '#eee',
+        bgColor3: '#dfdfdf',
+        fontColor: '#666'
+      })
+    },
+    changeRed () {
+      console.log('改变红色')
+      this.$store.commit('changeBlack', false)
+      this.$changeColor({
+        bgColor: '#d33',
+        bgColor2: '#eee',
+        bgColor3: '#dfdfdf',
+        fontColor: '#ffdfdf'
+      })
     }
   }
 }
@@ -68,7 +105,6 @@ export default {
   justify-content: space-between;
   height: 50px;
   padding: 0 16px;
-  background-color: #f9f9f9;
     // 顶部菜单
     .menu{
       display: flex;
@@ -95,16 +131,28 @@ export default {
         left: 10px;
         top: 8px;
         z-index: 1;
-        color: #333;
+        color: rgba(0, 0, 0, .4);
+        &.isblack {
+          color: rgba(255, 255, 255, .4);
+        }
       }
       .el-input {
         width: 160px;
         height: 28px;
-        ::v-deep .el-input__inner {
+         ::v-deep .el-input__inner {
           padding-left: 30px;
           height: 100%;
           border: none;
-          background-color: #eee;
+          background-color: rgba(0, 0, 0, .1);
+          &::placeholder{
+            color: rgba(0, 0, 0, .4);
+          }
+        }
+        &.isblack ::v-deep .el-input__inner {
+          background-color: rgba(255, 255, 255, .1);
+          &::placeholder{
+            color: rgba(255, 255, 255, .4);
+          }
         }
       }
     }
@@ -117,7 +165,7 @@ export default {
       padding: 3px;
       border-radius: 50%;
       &:hover {
-        background-color: #ececec;
+        background-color: rgba(0, 0, 0, .1);
       }
       .iconfont {
         color: #777;
